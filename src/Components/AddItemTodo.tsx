@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Button} from "@material-ui/core";
+import {Button, TextField} from "@material-ui/core";
 
 export type AddItemTodoPropsType = {
     addItem: (title: string) => void
@@ -30,13 +30,23 @@ export const AddItemTodo = (props: AddItemTodoPropsType) => {
     return (
         <div>
             <div>
-                <input value={title}
-                       onChange={onChangeHandler}
-                       onKeyDown={onKeyPressHandler}
-                       className={error ? "error" : ""}
+                <TextField
+                    size={"small"}
+                    id={"outlined-basic"}
+                    label={"Enter task"}
+                    variant={"outlined"}
+                    value={title}
+                    onChange={onChangeHandler}
+                    onKeyDown={onKeyPressHandler}
+                    error={!!error}
+                    helperText={error}
                 />
-                <Button onClick={addTask}>+</Button>
-                {error && <div className="error-message">{error}</div>}
+                <Button style={ {width: "20px"} }
+                    onClick={addTask}
+                    variant={"contained"}
+                    color={"primary"}
+                    size="medium">+
+                </Button>
             </div>
         </div>
     );
