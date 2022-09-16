@@ -1,0 +1,20 @@
+.errorInput {
+    outline: none;
+    border: 2px solid red;
+}
+
+.coloredText {
+    color: red;
+}
+
+.colored {
+    background-color: rgba(75, 0, 130, 0.53);
+}
+
+.opacity {
+    opacity: 0.5;
+}
+
+.styleNone {
+    list-style-type: none;
+}
