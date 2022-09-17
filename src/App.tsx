@@ -86,8 +86,8 @@ const App = () => {
     }
 
     const addTodoList = (title: string) => {
-        let todoLisID = v1()
-        const newTodoList: TodoListsType = {id: todoLisID, title: title, filter: "all"}
+        let todoLisID = v1()//
+        let newTodoList: TodoListsType = {id: todoLisID, title: title, filter: "all"}
         setTodoLists([newTodoList, ...todoLists])
         setTasks({...tasks, [todoLisID]: []})//
     }
@@ -123,11 +123,22 @@ const App = () => {
     })
 
     return (
-        <div className={st.App}>
-            <AddItemForm
-                addItem={addTodoList}
-            />
-            {renderTodoLists}
+        <div className={st.container}>
+            <div className={st.header}>
+
+            </div>
+            <div className={st.App}>
+
+                <div className={st.blockTodoLists}>
+                    <AddItemForm
+                        addItem={addTodoList}
+                    />
+                    {renderTodoLists}
+                </div>
+            </div>
+            <div className={st.footer}>
+
+            </div>
         </div>
     );
 };
@@ -142,8 +153,6 @@ export default App;
 //когда мы вызываем useReducer из этого хукка возвращается 2 значения, одно значение актуальное на момент
 //перерисовки и второе функция диспатч, в которую мы можем отправить action, который попадет по итогу в reducer,
 //и заставит reducer вернуть новый state, пересохранить react этот state и перерисовать всю страницу.
-
-
 
 
 //!--------------------------------------------------------------------------------------------------

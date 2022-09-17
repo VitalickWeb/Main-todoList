@@ -48,7 +48,7 @@ export const AddItemForm = ({
             />
             <button onClick={clickAddTaskHandler}>+</button>
 
-            {error && <div className={st.coloredText}>Enter the message</div>}
+            {error && <div className={st.coloredText}>field must be filled</div>}
         </div>
     );
 };

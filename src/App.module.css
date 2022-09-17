@@ -1,7 +1,27 @@
-
+.container {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.header {
+    width: 100%;
+    height: 50px;
+    background-color: rgb(58, 91, 176);
+}
 .App {
     width: 100%;
-    height: 500px;
+    height: auto;
+    background-color: rgba(145, 160, 177, 0.28);
+}
+
+.blockTodoLists {
+    max-width: 100%;
     display: flex;
-    background-color: #778899;
+    box-sizing: border-box;
+}
+.footer{
+    width: 100%;
+    height: 30px;
+    background-color: rgb(58, 91, 176);
 }
