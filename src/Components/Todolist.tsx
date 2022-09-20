@@ -1,7 +1,8 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {WordFilter} from "../App";
 import st from './Todolist.module.css'
 import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 export type TaskType = {
     id: string
@@ -19,6 +20,8 @@ export type tasksPropsType = {
     filterTasks: (todoId: string, filterId: WordFilter) => void
     filter: WordFilter
     removeTodoList: (todoId: string) => void
+    onChange: (todoId: string, taskId: string, newTitle: string) => void
+    changeTodolistTitle: (todoId: string, newTitle: string) => void
 }
 
 export const Todolist = ({
@@ -31,55 +34,62 @@ export const Todolist = ({
                              checkboxChange,
                              filter,
                              removeTodoList,
+                             onChange,
+                             changeTodolistTitle
                          }: tasksPropsType) => {
 
     const tasksRender = tasks.length !== 0 ? tasks.map(t => {
+            const clickRemoveHandler = () => {
+                removeTask(todoId, t.id)
+                //функция колбэк передает наверх id
+            }
+            const changeCheckboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                checkboxChange(todoId, t.id, e.currentTarget.checked)
+            }
 
-        const clickRemoveHandler = () => {
-            removeTask(todoId, t.id)
-            //функция колбэк передает наверх id
-        }
+            const style = `${st.styleNone} ${t.isDone ? st.opacity : ""}`
 
-        const changeCheckboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            checkboxChange(todoId, t.id, e.currentTarget.checked)
-        }
-
-        const style = `${st.styleNone} ${t.isDone ? st.opacity : ""}`
-
-        return (
-            <li key={t.id} className={style}>
-                <input
-                    type="checkbox" checked={t.isDone}
-                    onChange={changeCheckboxHandler}
-                />
-                {t.title} {t.isDone}
-                <button onClick={clickRemoveHandler}>X</button>
-            </li>
-        )
-    })
-    : <span>Create task</span>
+            return (
+                <li key={t.id} className={style}>
+                    <input
+                        type="checkbox" checked={t.isDone}
+                        onChange={changeCheckboxHandler}
+                    />
+                    <EditableSpan
+                        value={t.title}
+                        onChange={(value) => onChange(todoId, t.id,  value)}
+                    />
+                    {t.isDone}
+                    <button onClick={clickRemoveHandler}>X</button>
+                </li>
+            )
+        })
+        : <span>Create task</span>
 
     const addTaskHandler = (title: string) => {
         addTask(todoId, title)
     }
     const clickAllHandler = () => {
-        filterTasks(todoId,"all")
+        filterTasks(todoId, "all")
     }
     const clickActiveHandler = () => {
-        filterTasks(todoId,"active")
+        filterTasks(todoId, "active")
     }
     const clickCompletedHandler = () => {
-        filterTasks(todoId,"completed")
+        filterTasks(todoId, "completed")
     }
     const clickRemoveTodoListHandler = () => {
         removeTodoList(todoId)
     }
 
     return (
-        <div>
-            <div className={st.backgroundColor}>
+        <div className={st.backgroundColor}>
+            <div>
                 <h3>
-                    {title}
+                    <EditableSpan
+                        value={title}
+                        onChange={(value) => changeTodolistTitle(todoId, value)}
+                    />
                     <button onClick={clickRemoveTodoListHandler}>X</button>
                 </h3>
                 <AddItemForm
@@ -90,12 +100,13 @@ export const Todolist = ({
                 </ul>
                 <button className={filter === "all" ? st.colored : ""} onClick={clickAllHandler}>All</button>
                 <button className={filter === "active" ? st.colored : ""} onClick={clickActiveHandler}>Active</button>
-                <button className={filter === "completed" ? st.colored : ""} onClick={clickCompletedHandler}>Completed</button>
+                <button className={filter === "completed" ? st.colored : ""} onClick={clickCompletedHandler}>Completed
+                </button>
             </div>
+
         </div>
     );
 };
-
 
 
 //!--------------------------------------------------------------------------------------------------------

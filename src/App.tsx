@@ -47,6 +47,7 @@ const App = () => {
         ],
     })
 
+
     const removeTask = (todoId: string, taskId: string) => {
         // const todolistTasks = tasks[todoId]//нашли массив по айдишке
         // const updateTasks = todolistTasks.filter(t => t.id !== taskId)//удалили из массива таску
@@ -61,35 +62,40 @@ const App = () => {
         //удаление происходит таким образом, когда id сравниваются друг с другом, то
         //сравнение проходит по всем таскам, те которые равны не удаляются
     }
-
     const addTask = (todoId: string, title: string) => {
         let task = {id: v1(), title: title, isDone: false}
         setTasks({...tasks, [todoId]: [task, ...tasks[todoId]]})
         // let task = {id: v1(), title: title, isDone: false}
         // setTasks([task, ...tasks])
     }
-
     const checkboxChange = (todoId: string, checkId: string, isDone: boolean) => {
         setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === checkId ? {...t, isDone: isDone} : t)})
         // setTasks(tasks.map(t => t.id === checkId ? {...t, isDone: isDone} : t))
     }
+    const changeTitleOfTask = (todoId: string, taskId: string, newTitle: string) => {
+        setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, title: newTitle} : t)})
+        //алгоритм: находим в каком тудулисте таска, дальше находим таску и меняем в ней title
+    }
 
+    const changeTodoListTitle = (todoId: string, newTitle: string) => {
+        setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, title: newTitle} : tl))
+    }
     const filterTasks = (todoId: string, filterId: WordFilter) => {
         setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, filter: filterId} : tl))
         //промапили все тудулисты без изменений, если нужно внести изменение, то ложим копию объекта тудулиста и
         //поменяем ему фильтр на то значение которое ему придет в параметрах
     }
-
     const removeTodoList = (todoId: string) => {
         setTodoLists(todoLists.filter(tl => tl.id !== todoId))
         //tl.id которая не равна todoId, для которых выражение вернет true, колбэк функция метода филтер вернет новый массив
     }
-
     const addTodoList = (title: string) => {
         let todoLisID = v1()//
         let newTodoList: TodoListsType = {id: todoLisID, title: title, filter: "all"}
         setTodoLists([newTodoList, ...todoLists])
-        setTasks({...tasks, [todoLisID]: []})//
+        setTasks({...tasks, [todoLisID]: []})
+        //создали хранилище для тасок, для нового тудулиста,
+        // пустой массив означает что изначально там тасок нет
     }
 
     const helperFilter = (todoId: string, tasks: TasksStateType, filter: WordFilter) => {
@@ -112,12 +118,14 @@ const App = () => {
                 title={tl.title}//в атрибутах передаем в пропсы в другую компоненту названия, таски
                 tasks={helperFilter(tl.id, tasks, tl.filter)}
                 removeTodoList={removeTodoList}
+                onChange={changeTitleOfTask}
 
                 removeTask={removeTask}
                 addTask={addTask}
                 filterTasks={filterTasks}
                 checkboxChange={checkboxChange}
                 filter={tl.filter}
+                changeTodolistTitle={changeTodoListTitle}
             />
         )
     })
@@ -133,7 +141,9 @@ const App = () => {
                     <AddItemForm
                         addItem={addTodoList}
                     />
-                    {renderTodoLists}
+                    <div className={st.todoLists}>
+                        {renderTodoLists}
+                    </div>
                 </div>
             </div>
             <div className={st.footer}>
@@ -153,6 +163,8 @@ export default App;
 //когда мы вызываем useReducer из этого хукка возвращается 2 значения, одно значение актуальное на момент
 //перерисовки и второе функция диспатч, в которую мы можем отправить action, который попадет по итогу в reducer,
 //и заставит reducer вернуть новый state, пересохранить react этот state и перерисовать всю страницу.
+
+
 
 
 //!--------------------------------------------------------------------------------------------------
