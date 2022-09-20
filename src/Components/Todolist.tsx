@@ -10,7 +10,7 @@ export type TaskType = {
     isDone: boolean
 }
 
-export type tasksPropsType = {
+export type TasksPropsType = {
     todoId: string
     title: string
     tasks: Array<TaskType>
@@ -36,7 +36,7 @@ export const Todolist = ({
                              removeTodoList,
                              onChange,
                              changeTodolistTitle
-                         }: tasksPropsType) => {
+                         }: TasksPropsType) => {
 
     const tasksRender = tasks.length !== 0 ? tasks.map(t => {
             const clickRemoveHandler = () => {

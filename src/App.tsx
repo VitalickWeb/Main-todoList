@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useReducer} from 'react';
 import {TaskType, Todolist} from "./Components/Todolist";
 import {v1} from "uuid";
 import st from './App.module.css'
 import {AddItemForm} from "./Components/AddItemForm";
+import {removeTaskAC, TasksReducer} from "./State/tasks-redusers";
+import {removeTodoListAC, TodoListReducer} from "./State/TodoList-reducer";
 
 export type WordFilter = "all" | "active" | "completed"
 
@@ -23,14 +25,16 @@ const App = () => {
     const todoListID2 = v1()
 
     //каждому тудулисту должен принадлежать массив с тасками, которые мы должны сложить в объект
-    const [todoLists, setTodoLists] = useState<Array<TodoListsType>>([
+    const [todoLists, dispatchTodoLists] = useReducer(TodoListReducer, [
         {id: todoListID1, title: "What to learn", filter: "all"},
         {id: todoListID2, title: "What to buy", filter: "all"},
     ])
 
     //данные в app хранятся в данном случае в массиве объектов
     //в функцию state попадают массивы объектов тасок и мы должны манипулировать тасками через function callback
-    const [tasks, setTasks] = useState<TasksStateType>({
+    //tasks это state, а dispatchTasks функция которая следит за этим state
+    //useReducer принимает 2 аргумента первый - reducer, второй - наш массив tasks
+    const [tasks, dispatchTasks] = useReducer(TasksReducer,{
         [todoListID1]: [
             {id: v1(), title: "HTML", isDone: true},
             {id: v1(), title: "CSS", isDone: true},
@@ -49,14 +53,14 @@ const App = () => {
 
 
     const removeTask = (todoId: string, taskId: string) => {
+        dispatchTasks(removeTaskAC(todoId, taskId))//dispatchTasks вызывает функцию AC
         // const todolistTasks = tasks[todoId]//нашли массив по айдишке
         // const updateTasks = todolistTasks.filter(t => t.id !== taskId)//удалили из массива таску
         // const copyTasks = {...tasks}//сделали копию объекта
         // copyTasks[todoId] = updateTasks//в копию по нужному адресу положили массив с удаленной таской
         // setTasks(copyTasks)//засетали копию без удаленной таски
 
-        setTasks({...tasks, [todoId]: tasks[todoId].filter(t => t.id !== taskId)})
-
+        //setTasks({...tasks, [todoId]: tasks[todoId].filter(t => t.id !== taskId)})
         // console.log(setTasks(tasks.filter(t => t.id !== taskId ? t : '')))
         //для удаления таски нужно сравнить, если id не равны друг другу то удаляем таску
         //удаление происходит таким образом, когда id сравниваются друг с другом, то
@@ -64,36 +68,37 @@ const App = () => {
     }
     const addTask = (todoId: string, title: string) => {
         let task = {id: v1(), title: title, isDone: false}
-        setTasks({...tasks, [todoId]: [task, ...tasks[todoId]]})
+        //setTasks({...tasks, [todoId]: [task, ...tasks[todoId]]})
         // let task = {id: v1(), title: title, isDone: false}
         // setTasks([task, ...tasks])
     }
     const checkboxChange = (todoId: string, checkId: string, isDone: boolean) => {
-        setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === checkId ? {...t, isDone: isDone} : t)})
+        //setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === checkId ? {...t, isDone: isDone} : t)})
         // setTasks(tasks.map(t => t.id === checkId ? {...t, isDone: isDone} : t))
     }
     const changeTitleOfTask = (todoId: string, taskId: string, newTitle: string) => {
-        setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, title: newTitle} : t)})
+        //setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, title: newTitle} : t)})
         //алгоритм: находим в каком тудулисте таска, дальше находим таску и меняем в ней title
     }
 
     const changeTodoListTitle = (todoId: string, newTitle: string) => {
-        setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, title: newTitle} : tl))
+        //setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, title: newTitle} : tl))
     }
     const filterTasks = (todoId: string, filterId: WordFilter) => {
-        setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, filter: filterId} : tl))
+        //setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, filter: filterId} : tl))
         //промапили все тудулисты без изменений, если нужно внести изменение, то ложим копию объекта тудулиста и
         //поменяем ему фильтр на то значение которое ему придет в параметрах
     }
     const removeTodoList = (todoId: string) => {
-        setTodoLists(todoLists.filter(tl => tl.id !== todoId))
+        dispatchTodoLists(removeTodoListAC(todoId))
+        //setTodoLists(todoLists.filter(tl => tl.id !== todoId))
         //tl.id которая не равна todoId, для которых выражение вернет true, колбэк функция метода филтер вернет новый массив
     }
     const addTodoList = (title: string) => {
         let todoLisID = v1()//
         let newTodoList: TodoListsType = {id: todoLisID, title: title, filter: "all"}
-        setTodoLists([newTodoList, ...todoLists])
-        setTasks({...tasks, [todoLisID]: []})
+        //setTodoLists([newTodoList, ...todoLists])
+        //setTasks({...tasks, [todoLisID]: []})
         //создали хранилище для тасок, для нового тудулиста,
         // пустой массив означает что изначально там тасок нет
     }
@@ -109,7 +114,7 @@ const App = () => {
         }
     }
 
-    let renderTodoLists = todoLists.map(tl => {
+    let renderTodoLists = todoLists.map((tl: TodoListsType) => {
 
         return (
             <Todolist
