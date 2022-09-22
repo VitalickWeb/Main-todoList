@@ -8,6 +8,10 @@
     height: 50px;
     background-color: rgb(58, 91, 176);
 }
+.appName {
+    color: snow;
+    text-align: center;
+}
 .App {
     width: 100%;
     height: auto;

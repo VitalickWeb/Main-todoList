@@ -1,17 +1,42 @@
-import {TaskType} from "../Components/Todolist";
-import {TasksStateType} from "../App";
+import {TasksStateType} from "../AppWithReducer";
+import {v1} from "uuid";
 
 
 //автоматическая типизация, типизируем функцию с помощью ReturnType, и с помощью typeof погружаемся глубже типизируя объект
 //таким образом мы протипизировали объект, который называется action
-type removeTodoListACType = ReturnType<typeof removeTaskAC>
+type removeTaskAT = ReturnType<typeof removeTaskAC>
+type addTaskAT = ReturnType<typeof addTaskAC>
+type checkBoxChangeAT = ReturnType<typeof checkBoxChangeAC>
+type changeTitleTaskAT = ReturnType<typeof changeTitleTaskAC>
 
-type ACType = removeTodoListACType
+type actionsType = removeTaskAT | addTaskAT | checkBoxChangeAT | changeTitleTaskAT
 
-export const TasksReducer = (state: TasksStateType, action: ACType): TasksStateType => {
+export const TasksReducer = (state: TasksStateType, action: actionsType): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK": {
-            return {...state, [action.payload.todoId]: state[action.payload.todoId].filter(t => t.id !== action.payload.taskId)}
+            return {
+                ...state,
+                [action.payload.todoId]: state[action.payload.todoId].filter(t => t.id !== action.payload.taskId)
+            }
+        }
+        case "ADD-TASK": {
+            let task = {id: v1(), title: action.payload.title, isDone: false}
+            return {
+                ...state,
+                [action.payload.todoId]: [task, ...state[action.payload.todoId]]
+            }
+        }
+        case "CHECK-BOX-CHANGE": {
+            return {
+                ...state,
+                [action.payload.todoId]: state[action.payload.todoId].map(t => t.id === action.payload.checkId ? {...t, isDone: action.payload.isDone} : t)
+            }
+        }
+        case "CHANGE-TITLE-TASK": {
+            return {
+                ...state,
+                [action.payload.todoId]: state[action.payload.todoId].map(t => t.id === action.payload.taskId ? {...t, title: action.payload.newTitle} : t)
+            }
         }
         default:
             return state
@@ -22,9 +47,41 @@ export const TasksReducer = (state: TasksStateType, action: ACType): TasksStateT
 export const removeTaskAC = (todoId: string, taskId: string) => {
     return {
         type: "REMOVE-TASK", //поле type это ключ от кейса, в зависимости от которого пользователь будет взаимодействовать
+        payload: { //payload - полезная загрузка или информация, какие-то аргументы которые нам могут пригодится, для деструктуризации в кейсе
+            todoId,
+            taskId
+        }
+    } as const // если мы пишем автоматическую типизацию, то всегда пишем as const, иначе ляжет приложение
+}
+
+export const addTaskAC = (todoId: string, title: string) => {
+    return {
+        type: "ADD-TASK",
+        payload: {
+            todoId,
+            title
+        }
+    } as const
+}
+
+export const checkBoxChangeAC = (todoId: string, checkId: string, isDone: boolean) => {
+    return {
+        type: "CHECK-BOX-CHANGE",
+        payload: {
+            todoId,
+            checkId,
+            isDone
+        }
+    } as const
+}
+
+export const changeTitleTaskAC = (todoId: string, taskId: string, newTitle: string) => {
+    return {
+        type: "CHANGE-TITLE-TASK",
         payload: {
             todoId,
             taskId,
+            newTitle
         }
-    } as const // если мы пишем автоматическую типизацию, то всегда пишем as const, иначе ляжет приложение
+    } as const
 }

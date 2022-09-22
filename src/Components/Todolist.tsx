@@ -1,5 +1,5 @@
-import React, {ChangeEvent, useState} from 'react';
-import {WordFilter} from "../App";
+import React, {ChangeEvent} from 'react';
+import {WordFilter} from "../AppWithReducer";
 import st from './Todolist.module.css'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
