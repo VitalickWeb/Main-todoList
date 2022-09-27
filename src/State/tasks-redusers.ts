@@ -1,6 +1,6 @@
 import {TasksStateType} from "../AppWithReducer";
 import {v1} from "uuid";
-
+import {addTodoListAT} from "./TodoList-reducer";
 
 //автоматическая типизация, типизируем функцию с помощью ReturnType, и с помощью typeof погружаемся глубже типизируя объект
 //таким образом мы протипизировали объект, который называется action
@@ -9,9 +9,13 @@ type addTaskAT = ReturnType<typeof addTaskAC>
 type checkBoxChangeAT = ReturnType<typeof checkBoxChangeAC>
 type changeTitleTaskAT = ReturnType<typeof changeTitleTaskAC>
 
-type actionsType = removeTaskAT | addTaskAT | checkBoxChangeAT | changeTitleTaskAT
+type actionsType = removeTaskAT
+    | addTaskAT
+    | checkBoxChangeAT
+    | changeTitleTaskAT
+    | addTodoListAT //говорим action task reducer, что кроме своих типов они будет принимать тип addTodoListAT
 
-export const TasksReducer = (state: TasksStateType, action: actionsType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType, action: actionsType): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK": {
             return {
@@ -37,6 +41,11 @@ export const TasksReducer = (state: TasksStateType, action: actionsType): TasksS
                 ...state,
                 [action.payload.todoId]: state[action.payload.todoId].map(t => t.id === action.payload.taskId ? {...t, title: action.payload.newTitle} : t)
             }
+        }
+        case "ADD-TODOLIST":
+            return {
+            ...state,
+                [v1()]: []
         }
         default:
             return state

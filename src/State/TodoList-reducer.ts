@@ -6,7 +6,7 @@ import {v1} from "uuid";
 type removeTodoListAT = ReturnType<typeof removeTodoListAC>
 type changeTodoListTitleAT = ReturnType<typeof changeTodoListTitleAC>
 type filterTasksAT = ReturnType<typeof filterTasksAC>
-type addTodoListAT = ReturnType<typeof addTodoListAC>
+export type addTodoListAT = ReturnType<typeof addTodoListAC>
 
 type ACType = removeTodoListAT | changeTodoListTitleAT | filterTasksAT | addTodoListAT
 //функция TodoListReducer, которая принимает в себя 2 параметра state и action, где state это данные, а action это объект
@@ -58,6 +58,7 @@ export const filterTasksAC = (todoId: string, filterId: WordFilter) => {
 export const  addTodoListAC = (title: string) => {
     return {
         type: "ADD-TODOLIST",
-        title
+        title: title,
+        todoId: v1()
     } as const
 }

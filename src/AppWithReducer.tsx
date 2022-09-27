@@ -3,7 +3,7 @@ import {TaskType, Todolist} from "./Components/Todolist";
 import {v1} from "uuid";
 import st from './App.module.css'
 import {AddItemForm} from "./Components/AddItemForm";
-import {addTaskAC, changeTitleTaskAC, checkBoxChangeAC, removeTaskAC, TasksReducer} from "./State/tasks-redusers";
+import {addTaskAC, changeTitleTaskAC, checkBoxChangeAC, removeTaskAC, tasksReducer} from "./State/tasks-redusers";
 import {
     addTodoListAC,
     changeTodoListTitleAC,
@@ -40,7 +40,7 @@ const App = () => {
     //в функцию state попадают массивы объектов тасок и мы должны манипулировать тасками через function callback
     //tasks это state, а dispatchTasks функция которая следит за этим state
     //useReducer принимает 2 аргумента первый - reducer, второй - наш массив tasks
-    const [tasks, dispatchTasks] = useReducer(TasksReducer,{
+    const [tasks, dispatchTasks] = useReducer(tasksReducer,{
         [todoListID1]: [
             {id: v1(), title: "HTML", isDone: true},
             {id: v1(), title: "CSS", isDone: true},
@@ -103,6 +103,7 @@ const App = () => {
         dispatchTodoLists(removeTodoListAC(todoId))
         //setTodoLists(todoLists.filter(tl => tl.id !== todoId))
         //tl.id которая не равна todoId, для которых выражение вернет true, колбэк функция метода филтер вернет новый массив
+        delete tasks[todoId]
     }
     const addTodoList = (title: string) => {
         dispatchTodoLists(addTodoListAC(title))
