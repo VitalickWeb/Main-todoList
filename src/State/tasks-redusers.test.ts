@@ -1,7 +1,7 @@
 
 import {TasksStateType} from "../AppWithReducer";
 import {addTaskAC, changeTitleTaskAC, checkBoxChangeAC, removeTaskAC, tasksReducer} from "./tasks-redusers";
-import {addTodoListAC} from "./TodoList-reducer";
+import {addTodoListAC, removeTodoListAC} from "./TodoList-reducer";
 
 
 let taskState: TasksStateType
@@ -129,18 +129,45 @@ test('new array should be added when new todolist is added', () => {
         ]
     };
 
-    const action = addTodoListAC("new todolist");
+    const action = addTodoListAC("new todolist", "todolistId3");
 
     const endState = tasksReducer(startState, action)
 
 
     const keys = Object.keys(endState);//в переменную попадет 2 массива с тудулистами и
     //третий ключ и пустой массив
-    const newKey = keys.find(k => k != "todolistId1" && k != "todolistId2");
+    const newKey = keys.find(k => k !== "todolistId1" && k !== "todolistId2");
     if (!newKey) {
         throw Error("new key should be added")
     }
 
     expect(keys.length).toBe(3);
     expect(endState[newKey]).toEqual([]);
+});
+
+
+
+test('property with todolistId should be deleted', () => {
+    const startState: TasksStateType = {
+        "todolistId1": [
+            { id: "1", title: "CSS", isDone: false },
+            { id: "2", title: "JS", isDone: true },
+            { id: "3", title: "React", isDone: false }
+        ],
+        "todolistId2": [
+            { id: "1", title: "bread", isDone: false },
+            { id: "2", title: "milk", isDone: true },
+            { id: "3", title: "tea", isDone: false }
+        ]
+    };
+
+    const action = removeTodoListAC("todolistId2");
+
+    const endState = tasksReducer(startState, action)
+
+
+    const keys = Object.keys(endState);
+
+    expect(keys.length).toBe(1);
+    expect(endState["todolistId2"]).not.toBeDefined();
 });

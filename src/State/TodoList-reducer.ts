@@ -1,9 +1,8 @@
 
 import {TodoListsType, WordFilter} from "../AppWithReducer";
-import {v1} from "uuid";
 
 
-type removeTodoListAT = ReturnType<typeof removeTodoListAC>
+export type removeTodoListAT = ReturnType<typeof removeTodoListAC>
 type changeTodoListTitleAT = ReturnType<typeof changeTodoListTitleAC>
 type filterTasksAT = ReturnType<typeof filterTasksAC>
 export type addTodoListAT = ReturnType<typeof addTodoListAC>
@@ -22,8 +21,7 @@ export const TodoListReducer = (state: Array<TodoListsType>, action: ACType): Ar
             return state.map(tl => tl.id === action.todoId ? {...tl, filter: action.filterId} : tl)
         }
         case "ADD-TODOLIST": {
-            let todoLisID = v1()
-            let newTodoList: TodoListsType = {id: todoLisID, title: action.title, filter: "all"}
+            let newTodoList: TodoListsType = {id: action.todoId, title: action.title, filter: "all"}
             return [newTodoList, ...state]
         }
         default:
@@ -55,10 +53,10 @@ export const filterTasksAC = (todoId: string, filterId: WordFilter) => {
     } as const
 }
 
-export const  addTodoListAC = (title: string) => {
+export const  addTodoListAC = (title: string, todoId: string) => {
     return {
         type: "ADD-TODOLIST",
-        title: title,
-        todoId: v1()
+        title,
+        todoId
     } as const
 }

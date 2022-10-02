@@ -106,7 +106,9 @@ const App = () => {
         delete tasks[todoId]
     }
     const addTodoList = (title: string) => {
-        dispatchTodoLists(addTodoListAC(title))
+        let todoId = v1()
+        dispatchTodoLists(addTodoListAC(title, todoId))
+        dispatchTasks(addTodoListAC(title, todoId))
         // let todoLisID = v1()
         // let newTodoList: TodoListsType = {id: todoLisID, title: title, filter: "all"}
         //setTodoLists([newTodoList, ...todoLists])
