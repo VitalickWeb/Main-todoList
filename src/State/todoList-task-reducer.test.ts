@@ -6,7 +6,7 @@ test('ids should be equals', () => {
     const startTasksState: TasksStateType = {};// в переменную записываем пустой объект, с типом TasksStateType
     const startTodoListsState: Array<TodoListsType> = [];
 
-    const action = addTodoListAC("new todolist");
+    const action = addTodoListAC("new todolist", "todolistId3");
 
     const endTasksState = tasksReducer(startTasksState, action)//в переменную записываем объект с ключом todoId и значение пустой таски
     const endTodoListsState = TodoListReducer(startTodoListsState, action)//в переменной массив с тудулистом элементом объекта и тремя свойствами в этом объекте
