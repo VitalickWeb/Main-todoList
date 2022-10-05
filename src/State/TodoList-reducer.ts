@@ -8,8 +8,17 @@ type filterTasksAT = ReturnType<typeof filterTasksAC>
 export type addTodoListAT = ReturnType<typeof addTodoListAC>
 
 type ACType = removeTodoListAT | changeTodoListTitleAT | filterTasksAT | addTodoListAT
+
+
+//Cоздаём initialState для reducers
+// Ещё одно: с первым системным экшеном, который редакс диспатчит\отправляет в наши редьюсеры стейт не приходит.
+// Он равен undefined, его нет, потому что жизнь только зарождается:
+// Поэтому для параметра state мы должны задать значение по дефолту, равное начальному состоянию.
+// Пусть это будут пустые массив и объект:
+const initialState: Array<TodoListsType> = []
+
 //функция TodoListReducer, которая принимает в себя 2 параметра state и action, где state это данные, а action это объект
-export const TodoListReducer = (state: Array<TodoListsType>, action: ACType): Array<TodoListsType> => {
+export const TodoListReducer = (state: Array<TodoListsType> = initialState, action: ACType): Array<TodoListsType> => {
     switch (action.type) {
         case "REMOVE-TODOLIST": {
             return state.filter((tl: TodoListsType) => tl.id !== action.todoId)

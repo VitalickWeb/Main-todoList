@@ -3,8 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import AppWithReducer from "./AppWithReducer";
+import {store} from "./State/store";
+import {Provider} from "react-redux";
 
-ReactDOM.render(<AppWithReducer />,  document.getElementById('root'));
+//Даём доступ компонентам к store, используя Provider
+//Чтобы react (то есть наши компоненты) могли обращаться к этому store,
+//мы должны положить наше приложение внутрь компонента Provider,
+//с переданным ему store (это в файле index.tsx):
+ReactDOM.render(
+    <Provider store={store}>
+        <AppWithReducer />
+    </Provider>,  document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
