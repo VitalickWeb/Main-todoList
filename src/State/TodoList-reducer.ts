@@ -1,6 +1,4 @@
-
-import {TodoListsType, WordFilter} from "../AppWithReducer";
-
+import {TodoListsType, WordFilter} from "./AppWithRedux";
 
 export type removeTodoListAT = ReturnType<typeof removeTodoListAC>
 type changeTodoListTitleAT = ReturnType<typeof changeTodoListTitleAC>

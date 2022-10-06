@@ -6,7 +6,7 @@ import {
     TodoListReducer
 } from "./TodoList-reducer"
 import {v1} from "uuid";
-import {TodoListsType, WordFilter} from "../AppWithReducer";
+import {TodoListsType, WordFilter} from "./AppWithRedux";
 
 let todoListID1: string
 let todoListID2: string
@@ -42,7 +42,7 @@ test("correct todoList should be added", () => {
 })
 
 test("correct todoList should changed it's name", () => {
-    let newTodoListTitle = "new Todolist"
+    let newTodoListTitle = "new TodolistWithRedux"
 
     const action = {
         type: "CHANGE-TODOLIST-TITLE",

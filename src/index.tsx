@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import AppWithReducer from "./AppWithReducer";
 import {store} from "./State/store";
 import {Provider} from "react-redux";
+import AppWithRedux from "./State/AppWithRedux";
 
 //Даём доступ компонентам к store, используя Provider
 //Чтобы react (то есть наши компоненты) могли обращаться к этому store,
@@ -12,7 +12,7 @@ import {Provider} from "react-redux";
 //с переданным ему store (это в файле index.tsx):
 ReactDOM.render(
     <Provider store={store}>
-        <AppWithReducer />
+        <AppWithRedux />
     </Provider>,  document.getElementById('root')
 );
 

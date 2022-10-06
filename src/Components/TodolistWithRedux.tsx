@@ -1,8 +1,8 @@
 import React, {ChangeEvent} from 'react';
-import {WordFilter} from "../AppWithReducer";
 import st from './Todolist.module.css'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {WordFilter} from "../State/AppWithRedux";
 
 export type TaskType = {
     id: string
@@ -24,7 +24,7 @@ export type TasksPropsType = {
     changeTodolistTitle: (todoId: string, newTitle: string) => void
 }
 
-export const Todolist = ({
+export const TodolistWithRedux = ({
                              todoId,
                              title,
                              tasks,
@@ -112,7 +112,7 @@ export const Todolist = ({
 //!--------------------------------------------------------------------------------------------------------
 // import React, {ChangeEvent, useState} from 'react';
 // import {WordFilter} from "../App";
-// import st from './Todolist.module.css'
+// import st from './TodolistWithRedux.module.css'
 //
 // export type TaskType = {
 //     id: string
@@ -132,7 +132,7 @@ export const Todolist = ({
 //     removeTodoList: (todoId: string) => void
 // }
 //
-// export const Todolist = ({
+// export const TodolistWithRedux = ({
 //                              todoId,
 //                              title,
 //                              tasks,

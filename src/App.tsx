@@ -1,5 +1,5 @@
 import React, {useReducer} from 'react';
-// import {TaskType, Todolist} from "./Components/Todolist";
+// import {TaskType, TodolistWithRedux} from "./Components/TodolistWithRedux";
 // import {v1} from "uuid";
 // import st from './App.module.css'
 // import {AddItemForm} from "./Components/AddItemForm";
@@ -117,7 +117,7 @@ import React, {useReducer} from 'react';
 //     let renderTodoLists = todoLists.map((tl: TodoListsType) => {
 //
 //         return (
-//             <Todolist
+//             <TodolistWithRedux
 //                 key={tl.id}
 //                 todoId={tl.id}
 //                 title={tl.title}//в атрибутах передаем в пропсы в другую компоненту названия, таски
@@ -174,7 +174,7 @@ import React, {useReducer} from 'react';
 
 //!--------------------------------------------------------------------------------------------------
 // import React, {useState} from 'react';
-// import {TaskType, Todolist} from "./Components/Todolist";
+// import {TaskType, TodolistWithRedux} from "./Components/TodolistWithRedux";
 // import {v1} from "uuid";
 // import st from './App.module.css'
 // import {AddItemForm} from "./Components/AddItemForm";
@@ -281,7 +281,7 @@ import React, {useReducer} from 'react';
 //     let renderTodoLists = todoLists.map(tl => {
 //
 //         return (
-//             <Todolist
+//             <TodolistWithRedux
 //                 key={tl.id}
 //                 todoId={tl.id}
 //                 title={tl.title}//в атрибутах передаем в пропсы в другую компоненту названия, таски

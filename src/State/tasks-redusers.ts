@@ -1,6 +1,7 @@
-import {TasksStateType} from "../AppWithReducer";
+
 import {v1} from "uuid";
 import {addTodoListAT, removeTodoListAT} from "./TodoList-reducer";
+import {TasksStateType} from "./AppWithRedux";
 
 //автоматическая типизация, типизируем функцию с помощью ReturnType, и с помощью typeof погружаемся глубже типизируя объект
 //таким образом мы протипизировали объект, который называется action
@@ -16,7 +17,9 @@ type actionsType = removeTaskAT
     | addTodoListAT //говорим action task reducer, что кроме своих типов они будет принимать тип addTodoListAT
     | removeTodoListAT
 
-export const tasksReducer = (state: TasksStateType, action: actionsType): TasksStateType => {
+const initialState: TasksStateType = {}
+
+export const tasksReducer = (state: TasksStateType = initialState, action: actionsType): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK": {
             return {
