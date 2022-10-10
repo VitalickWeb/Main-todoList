@@ -34,59 +34,60 @@ const AppWithRedux = () => {
     //Второй параметр это тип, который мы хотим получить в данном случае это массив - "Array[TodoListsType]"
     //useSelector принимает callback у которого в параметре state и должен вернуть нам часть нашего state
     const todoLists = useSelector<AppRootStateType, Array<TodoListsType>>(state => state.todoLists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    // const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     //Теперь для того что бы предать нашей компоненте функционал, необходим метод dispatch
     //Потому что без него однонаправленный поток данных не стартует
     const dispatch = useDispatch()
     //Теперь для того что бы использовать нашу компоненту используем метод "dispatch" в функциях
-    const removeTask = (todoId: string, taskId: string) => {
-        dispatch(removeTaskAC(todoId, taskId))//dispatchTasks вызывает функцию AC
-        // const todolistTasks = tasks[todoId]//нашли массив по айдишке
-        // const updateTasks = todolistTasks.filter(t => t.id !== taskId)//удалили из массива таску
-        // const copyTasks = {...tasks}//сделали копию объекта
-        // copyTasks[todoId] = updateTasks//в копию по нужному адресу положили массив с удаленной таской
-        // setTasks(copyTasks)//засетали копию без удаленной таски
+    // const removeTask = (todoId: string, taskId: string) => {
+    //     dispatch(removeTaskAC(todoId, taskId))//dispatchTasks вызывает функцию AC
+    //     // const todolistTasks = tasks[todoId]//нашли массив по айдишке
+    //     // const updateTasks = todolistTasks.filter(t => t.id !== taskId)//удалили из массива таску
+    //     // const copyTasks = {...tasks}//сделали копию объекта
+    //     // copyTasks[todoId] = updateTasks//в копию по нужному адресу положили массив с удаленной таской
+    //     // setTasks(copyTasks)//засетали копию без удаленной таски
+    //
+    //     //setTasks({...tasks, [todoId]: tasks[todoId].filter(t => t.id !== taskId)})
+    //     // console.log(setTasks(tasks.filter(t => t.id !== taskId ? t : '')))
+    //     //для удаления таски нужно сравнить, если id не равны друг другу то удаляем таску
+    //     //удаление происходит таким образом, когда id сравниваются друг с другом, то
+    //     //сравнение проходит по всем таскам, те которые равны не удаляются
+    // }
+    // const addTask = (todoId: string, title: string) => {
+    //     dispatch(addTaskAC(todoId, title))
+    //     //let task = {id: v1(), title: title, isDone: false}
+    //     //setTasks({...tasks, [todoId]: [task, ...tasks[todoId]]})
+    //     // let task = {id: v1(), title: title, isDone: false}
+    //     // setTasks([task, ...tasks])
+    // }
+    // const checkBoxChange = (todoId: string, checkId: string, isDone: boolean) => {
+    //     dispatch(checkBoxChangeAC(todoId, checkId, isDone))
+    //     //setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === checkId ? {...t, isDone: isDone} : t)})
+    //     // setTasks(tasks.map(t => t.id === checkId ? {...t, isDone: isDone} : t))
+    // }
+    // const changeTitleTask = (todoId: string, taskId: string, newTitle: string) => {
+    //     dispatch(changeTitleTaskAC(todoId, taskId, newTitle))
+    //     //setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, title: newTitle} : t)})
+    //     //алгоритм: находим в каком тудулисте таска, дальше находим таску и меняем в ней title
+    // }
+    //
+    // const changeTodoListTitle = (todoId: string, newTitle: string) => {
+    //     dispatch(changeTodoListTitleAC(todoId, newTitle))
+    //     //setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, title: newTitle} : tl))
+    // }
+    // const filterTasks = (todoId: string, filterId: WordFilter) => {
+    //     dispatch(filterTasksAC(todoId, filterId))
+    //     //setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, filter: filterId} : tl))
+    //     //промапили все тудулисты без изменений, если нужно внести изменение, то ложим копию объекта тудулиста и
+    //     //поменяем ему фильтр на то значение которое ему придет в параметрах
+    // }
+    // const removeTodoList = (todoId: string) => {
+    //     dispatch(removeTodoListAC(todoId))
+    //     //setTodoLists(todoLists.filter(tl => tl.id !== todoId))
+    //     //tl.id которая не равна todoId, для которых выражение вернет true, колбэк функция метода филтер вернет новый массив
+    // }
 
-        //setTasks({...tasks, [todoId]: tasks[todoId].filter(t => t.id !== taskId)})
-        // console.log(setTasks(tasks.filter(t => t.id !== taskId ? t : '')))
-        //для удаления таски нужно сравнить, если id не равны друг другу то удаляем таску
-        //удаление происходит таким образом, когда id сравниваются друг с другом, то
-        //сравнение проходит по всем таскам, те которые равны не удаляются
-    }
-    const addTask = (todoId: string, title: string) => {
-        dispatch(addTaskAC(todoId, title))
-        //let task = {id: v1(), title: title, isDone: false}
-        //setTasks({...tasks, [todoId]: [task, ...tasks[todoId]]})
-        // let task = {id: v1(), title: title, isDone: false}
-        // setTasks([task, ...tasks])
-    }
-    const checkBoxChange = (todoId: string, checkId: string, isDone: boolean) => {
-        dispatch(checkBoxChangeAC(todoId, checkId, isDone))
-        //setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === checkId ? {...t, isDone: isDone} : t)})
-        // setTasks(tasks.map(t => t.id === checkId ? {...t, isDone: isDone} : t))
-    }
-    const changeTitleTask = (todoId: string, taskId: string, newTitle: string) => {
-        dispatch(changeTitleTaskAC(todoId, taskId, newTitle))
-        //setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, title: newTitle} : t)})
-        //алгоритм: находим в каком тудулисте таска, дальше находим таску и меняем в ней title
-    }
-
-    const changeTodoListTitle = (todoId: string, newTitle: string) => {
-        dispatch(changeTodoListTitleAC(todoId, newTitle))
-        //setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, title: newTitle} : tl))
-    }
-    const filterTasks = (todoId: string, filterId: WordFilter) => {
-        dispatch(filterTasksAC(todoId, filterId))
-        //setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, filter: filterId} : tl))
-        //промапили все тудулисты без изменений, если нужно внести изменение, то ложим копию объекта тудулиста и
-        //поменяем ему фильтр на то значение которое ему придет в параметрах
-    }
-    const removeTodoList = (todoId: string) => {
-        dispatch(removeTodoListAC(todoId))
-        //setTodoLists(todoLists.filter(tl => tl.id !== todoId))
-        //tl.id которая не равна todoId, для которых выражение вернет true, колбэк функция метода филтер вернет новый массив
-    }
     const addTodoList = (title: string) => {
         let action = addTodoListAC(title, v1())
         dispatch(action)
@@ -98,34 +99,35 @@ const AppWithRedux = () => {
         // пустой массив означает что изначально там тасок нет
     }
 
-    const helperFilter = (todoId: string, tasks: TasksStateType, filter: WordFilter) => {
-        switch (filter) {
-            case "active":
-                return tasks[todoId].filter(f => !f.isDone)//в переменную filteredTasks присваиваем состояние true или
-            case "completed": // false для передачи переменной в компоненту todolist
-                return tasks[todoId].filter(f => f.isDone)
-            default:
-                return tasks[todoId]
-        }
-    }
+    // const helperFilter = (todoId: string, tasks: TasksStateType, filter: WordFilter) => {
+    //     switch (filter) {
+    //         case "active":
+    //             return tasks[todoId].filter(f => !f.isDone)//в переменную filteredTasks присваиваем состояние true или
+    //         case "completed": // false для передачи переменной в компоненту todolist
+    //             return tasks[todoId].filter(f => f.isDone)
+    //         default:
+    //             return tasks[todoId]
+    //     }
+    // }
 
    let renderTodoLists = todoLists.map((tl: TodoListsType) => {
 
         return (
             <TodolistWithRedux
                 key={tl.id}
-                todoId={tl.id}
-                title={tl.title}//в атрибутах передаем в пропсы в другую компоненту названия, таски
-                tasks={helperFilter(tl.id, tasks, tl.filter)}
-                removeTodoList={removeTodoList}
-                onChange={changeTitleTask}
-
-                removeTask={removeTask}
-                addTask={addTask}
-                filterTasks={filterTasks}
-                checkboxChange={checkBoxChange}
-                filter={tl.filter}
-                changeTodolistTitle={changeTodoListTitle}
+                todoList={tl}
+                // todoId={tl.id}
+                // title={tl.title}//в атрибутах передаем в пропсы в другую компоненту названия, таски
+                // tasks={helperFilter(tl.id, tasks, tl.filter)}
+                // removeTodoList={removeTodoList}
+                // onChange={changeTitleTask}
+                //
+                // removeTask={removeTask}
+                // addTask={addTask}
+                // filterTasks={filterTasks}
+                // checkboxChange={checkBoxChange}
+                // filter={tl.filter}
+                // changeTodolistTitle={changeTodoListTitle}
             />
         )
     })
