@@ -1,14 +1,11 @@
-import React from 'react';
+import React, {memo, useCallback} from 'react';
 import {TaskType, TodolistWithRedux} from "../Components/TodolistWithRedux";
 import {v1} from "uuid";
 import st from '../App.module.css'
 import {AddItemForm} from "../Components/AddItemForm";
-import {addTaskAC, changeTitleTaskAC, checkBoxChangeAC, removeTaskAC} from "../State/tasks-redusers";
+
 import {
     addTodoListAC,
-    changeTodoListTitleAC,
-    filterTasksAC,
-    removeTodoListAC,
 } from "../State/TodoList-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
@@ -27,8 +24,8 @@ export type TasksStateType = {
     [todoListID: string]: Array<TaskType>//в объект положили массив тасок
 }
 
-const AppWithRedux = () => {
-
+const AppWithRedux = memo(() => {
+    //console.log('todoList')
     //Для того чтобы взять данные из редаксовского стора, используется хук useSelector
     //Первый тип в дженерике это тип с которым он работает "AppRootStateType"
     //Второй параметр это тип, который мы хотим получить в данном случае это массив - "Array[TodoListsType]"
@@ -88,7 +85,7 @@ const AppWithRedux = () => {
     //     //tl.id которая не равна todoId, для которых выражение вернет true, колбэк функция метода филтер вернет новый массив
     // }
 
-    const addTodoList = (title: string) => {
+    const addTodoList = useCallback((title: string) => {
         let action = addTodoListAC(title, v1())
         dispatch(action)
         // let todoLisID = v1()
@@ -97,7 +94,7 @@ const AppWithRedux = () => {
         //setTasks({...tasks, [todoLisID]: []})
         //создали хранилище для тасок, для нового тудулиста,
         // пустой массив означает что изначально там тасок нет
-    }
+    },[dispatch])
 
     // const helperFilter = (todoId: string, tasks: TasksStateType, filter: WordFilter) => {
     //     switch (filter) {
@@ -153,7 +150,7 @@ const AppWithRedux = () => {
             </div>
         </div>
     );
-};
+});
 
 export default AppWithRedux;
 
@@ -193,3 +190,26 @@ export default AppWithRedux;
 //чтобы передать функционал компоненте необходим метод dispatch, для этого используется хук useDispatch. Для того чтобы
 // подключить к контексту редаксовский store используется компонент провайдер из библиотеки REACT-REDUX. Так же используется
 //хок коннект это функция которая принимает компонент и возвращает компонент с какой-то новой функциональностью.
+
+
+
+//Оптимизация через HOK react.memo
+//###############################################################################
+//Rerender происходит в трех случаях: 1)изменение в state, 2)Изменение в Props, 3)Изменение в родительской компоненте
+
+//Если пользователь, что то сделал в UI то сразу запускается callback, потом useSelector забирает данные из store, компонента
+//вернула новый JSX, Bable компилирует JSX в java script code, создается еще один виртуал дом, происходит сравнение двух объектов, вычисляется разница, и браузер отрисовывает
+//те узлы между которыми есть разница.
+
+
+//Что происходит когда ререндерится AppWithRedux при добавлении таски например: создается новая функция, значит весь код в файле у нас срабатывает
+//и создаются все функции по новой, в AddItemForm постоянно попадает новый объект, а раз попадает новый объект, React.memo видит что пришел
+//новый объект то точно так же ререндерит компоненту AddItemForm. Что бы решить проблему лишней перерисовки дополнительно используют
+//хук useCallback - предназначенный для кэширования вызова нашей функции
+
+//useCallback - это функция, которая первым параметром принимает сам колбэк за которым будет следить, а вторым массив зависимостей
+//в который попадают те переменные или функции от которых зависит надо использовать useCallback чтобы он запоминал вызов функции или нет,
+//от чего это зависит: от state и от входящих пропсов
+
+//обращаем внимание при перерисовке на то что нужно обернуть нужную компоненту HOK react.memo и если приходят в пропсах колбэки обернуть колбэки
+//хуком useCallback и вторым параметром указать массивом зависимости те от которых зависит перерисовка.

@@ -1,14 +1,14 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import st from "./Todolist.module.css";
 
 export type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm = ({
+export const AddItemForm = memo(({
                                 addItem,
                             }: AddItemFormPropsType) => {
-
+   //console.log('AddItemForm')
     const [valueTitle, setValueTitle] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
 
@@ -51,5 +51,5 @@ export const AddItemForm = ({
             {error && <div className={st.coloredText}>field must be filled</div>}
         </div>
     );
-};
+});
 

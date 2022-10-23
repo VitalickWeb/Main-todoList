@@ -1,12 +1,13 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, memo, useCallback} from 'react';
 import st from './Todolist.module.css'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
-import {TasksStateType, TodoListsType, WordFilter} from "../State/AppWithRedux";
+import {TodoListsType} from "../State/AppWithRedux";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../State/store";
-import {addTaskAC, changeTitleTaskAC, checkBoxChangeAC, removeTaskAC} from "../State/tasks-redusers";
+import {addTaskAC} from "../State/tasks-redusers";
 import {changeTodoListTitleAC, filterTasksAC, removeTodoListAC} from "../State/TodoList-reducer";
+import {Task} from "./Task";
 
 export type TaskType = {
     id: string
@@ -29,7 +30,7 @@ export type TasksPropsType = {
     // changeTodolistTitle: (todoId: string, newTitle: string) => void
 }
 
-export const TodolistWithRedux = ({
+export const TodolistWithRedux = memo(({
                                       // todoId,
                                       // title,
                                       // tasks,
@@ -56,33 +57,37 @@ export const TodolistWithRedux = ({
 
     const tasksRender = tasks.length !== 0 ? tasks.map(t => {
             //функция колбэк передает наверх id
-            const clickRemoveHandler = () => {
-                dispatch(removeTaskAC(todoList.id, t.id))
-            }
-            const changeCheckboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                dispatch(checkBoxChangeAC(todoList.id, t.id, e.currentTarget.checked))
-            }
-
-            const style = `${st.styleNone} ${t.isDone ? st.opacity : ""}`
+            // const clickRemoveHandler = () => {
+            //     dispatch(removeTaskAC(todoList.id, t.id))
+            // }
+            // const changeCheckboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
+            //     dispatch(checkBoxChangeAC(todoList.id, t.id, e.currentTarget.checked))
+            // }
+            //
+            // const style = `${st.styleNone} ${t.isDone ? st.opacity : ""}`
 
             return (
-                <li key={t.id} className={style}>
-                    <input
-                        type="checkbox" checked={t.isDone}
-                        onChange={changeCheckboxHandler}
-                    />
-                    <EditableSpan
-                        value={t.title}
-                        onChange={(value) => dispatch(changeTitleTaskAC(todoList.id, t.id, value))}
-                    />
-                    {t.isDone}
-                    <button onClick={clickRemoveHandler}>X</button>
-                </li>
+                <Task
+                    todoId={todoList.id}
+                    taskId={t.id}
+                />
+                // <li key={t.id} className={style}>
+                //     <input
+                //         type="checkbox" checked={t.isDone}
+                //         onChange={changeCheckboxHandler}
+                //     />
+                //     <EditableSpan
+                //         value={t.title}
+                //         onChange={(value) => dispatch(changeTitleTaskAC(todoList.id, t.id, value))}
+                //     />
+                //     {t.isDone}
+                //     <button onClick={clickRemoveHandler}>X</button>
+                // </li>
             )
         })
         : <span>Create task</span>
 
-    const addTaskHandler = (title: string) => dispatch(addTaskAC(todoList.id, title))
+    const addTaskHandler = useCallback((title: string) => dispatch(addTaskAC(todoList.id, title)), [dispatch])
 
     const clickAllHandler = () => dispatch(filterTasksAC(todoList.id, "all"))
     const clickActiveHandler = () => dispatch(filterTasksAC(todoList.id, "active"))
@@ -92,13 +97,17 @@ export const TodolistWithRedux = ({
         dispatch(removeTodoListAC(todoList.id))
     }
 
+    const changeTodoListTitle = useCallback((value: string) => {
+        dispatch(changeTodoListTitleAC(todoList.id, value))
+    }, [todoList.id])
+
     return (
         <div className={st.backgroundColor}>
             <div>
                 <h3>
                     <EditableSpan
                         value={todoList.title}
-                        onChange={(value) => dispatch(changeTodoListTitleAC(todoList.id, value))}
+                        onChange={(value) => changeTodoListTitle(value)}
                     />
                     <button onClick={clickRemoveTodoListHandler}>X</button>
                 </h3>
@@ -109,12 +118,15 @@ export const TodolistWithRedux = ({
                     {tasksRender}
                 </ul>
                 <button className={todoList.filter === "all" ? st.colored : ""} onClick={clickAllHandler}>All</button>
-                <button className={todoList.filter === "active" ? st.colored : ""} onClick={clickActiveHandler}>Active</button>
-                <button className={todoList.filter === "completed" ? st.colored : ""} onClick={clickCompletedHandler}>Completed</button>
+                <button className={todoList.filter === "active" ? st.colored : ""} onClick={clickActiveHandler}>Active
+                </button>
+                <button className={todoList.filter === "completed" ? st.colored : ""}
+                        onClick={clickCompletedHandler}>Completed
+                </button>
             </div>
         </div>
     );
-};
+});
 
 
 //!--------------------------------------------------------------------------------------------------------

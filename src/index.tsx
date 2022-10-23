@@ -9,6 +9,7 @@ import AppWithRedux from "./State/AppWithRedux";
 //Даём доступ компонентам к store, используя Provider
 //Чтобы react (то есть наши компоненты) могли обращаться к этому store,
 //мы должны положить наше приложение внутрь компонента Provider,
+// который импортируется из react-redux библиотеки,
 //с переданным ему store (это в файле index.tsx):
 ReactDOM.render(
     <Provider store={store}>
