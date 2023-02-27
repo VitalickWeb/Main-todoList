@@ -118,13 +118,13 @@ const AppWithRedux = memo(() => {
                 // tasks={helperFilter(tl.id, tasks, tl.filter)}
                 // removeTodoList={removeTodoList}
                 // onChange={changeTitleTask}
-                //
+                // changeTodolistTitle={changeTodoListTitle}
+                // filter={tl.filter}
+
                 // removeTask={removeTask}
                 // addTask={addTask}
                 // filterTasks={filterTasks}
                 // checkboxChange={checkBoxChange}
-                // filter={tl.filter}
-                // changeTodolistTitle={changeTodoListTitle}
             />
         )
     })
@@ -198,8 +198,8 @@ export default AppWithRedux;
 //Rerender происходит в трех случаях: 1)изменение в state, 2)Изменение в Props, 3)Изменение в родительской компоненте
 
 //Если пользователь, что то сделал в UI то сразу запускается callback, потом useSelector забирает данные из store, компонента
-//вернула новый JSX, Bable компилирует JSX в java script code, создается еще один виртуал дом, происходит сравнение двух объектов, вычисляется разница, и браузер отрисовывает
-//те узлы между которыми есть разница.
+//вернула новый JSX, Bable компилирует JSX в java script code, создается еще один виртуал дом, происходит сравнение двух объектов, вычисляется
+// разница, и браузер отрисовывает те узлы между которыми есть разница.
 
 
 //Что происходит когда ререндерится AppWithRedux при добавлении таски например: создается новая функция, значит весь код в файле у нас срабатывает

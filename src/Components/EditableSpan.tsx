@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, memo, useCallback, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 
 export type ChangeTitlePropsType = {
     value: string
@@ -9,7 +9,7 @@ export const EditableSpan = memo(({
                                  value,
                                  onChange,
                              }: ChangeTitlePropsType) => {
-
+console.log('editableSpan')
     //Алгоритм: нам нужно, что бы этот компонент в обычном состоянии выводил что-то для чтения,
     //и, если мы кликнем по этому элементу, то появится форма для редактирования.
     //Для этого нам нужно начать с того что наш компонент будет иметь внутреннее состояние,
@@ -25,16 +25,15 @@ export const EditableSpan = memo(({
         e.key === "Enter" && activeViewMode()
     }
 
-    const activateEditMode = useCallback(() => {
+    const activateEditMode = () => {
         setEditMode(true)
-        setChangeTitle(value)
-    }, [setEditMode, setChangeTitle])
+    }
 
-    const activeViewMode = useCallback(() => {
+    const activeViewMode = () => {
         setEditMode(false)
         onChange(changeTitle)
         //выключаем режим редактирования и помещаем содержимое локального стэйта
-    }, [setEditMode, onChange])
+    }
 
     return (
         <>

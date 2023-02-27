@@ -67,9 +67,9 @@ export const TodolistWithRedux = memo(({
             // const style = `${st.styleNone} ${t.isDone ? st.opacity : ""}`
 
             return (
-                <Task
+                <Task key={t.id}
                     todoId={todoList.id}
-                    taskId={t.id}
+                    task={t}
                 />
                 // <li key={t.id} className={style}>
                 //     <input
