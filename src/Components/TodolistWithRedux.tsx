@@ -1,4 +1,4 @@
-import React, {ChangeEvent, memo, useCallback} from 'react';
+import React, {memo, useCallback} from 'react';
 import st from './Todolist.module.css'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -87,11 +87,13 @@ export const TodolistWithRedux = memo(({
         })
         : <span>Create task</span>
 
-    const addTaskHandler = useCallback((title: string) => dispatch(addTaskAC(todoList.id, title)), [dispatch])
+    const addTaskHandler = useCallback((title: string) => dispatch(addTaskAC(todoList.id, title)), [dispatch, todoList.id])
 
-    const clickAllHandler = () => dispatch(filterTasksAC(todoList.id, "all"))
-    const clickActiveHandler = () => dispatch(filterTasksAC(todoList.id, "active"))
-    const clickCompletedHandler = () => dispatch(filterTasksAC(todoList.id, "completed"))
+    const clickAllHandler = useCallback(() => dispatch(filterTasksAC(todoList.id, "all")), [dispatch, todoList.id])
+    const clickActiveHandler = useCallback(() => dispatch(filterTasksAC(todoList.id, "active")), [dispatch, todoList.id])
+    const clickCompletedHandler = useCallback(() => dispatch(filterTasksAC(todoList.id, "completed")), [dispatch, todoList.id])
+    // const clickActiveHandler = () => dispatch(filterTasksAC(todoList.id, "active"))
+    // const clickCompletedHandler = () => dispatch(filterTasksAC(todoList.id, "completed"))
 
     const clickRemoveTodoListHandler = () => {
         dispatch(removeTodoListAC(todoList.id))
@@ -99,7 +101,7 @@ export const TodolistWithRedux = memo(({
 
     const changeTodoListTitle = useCallback((value: string) => {
         dispatch(changeTodoListTitleAC(todoList.id, value))
-    }, [todoList.id])
+    }, [dispatch, todoList.id])
 
     return (
         <div className={st.backgroundColor}>

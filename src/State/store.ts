@@ -1,12 +1,12 @@
 import {combineReducers, legacy_createStore} from "redux";
 import {tasksReducer} from "./tasks-redusers";
-import {TodoListReducer} from "./TodoList-reducer";
+import {todoListReducer} from "./TodoList-reducer";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
     tasks: tasksReducer,
-    todoLists: TodoListReducer
+    todoLists: todoListReducer
 })
 // непосредственно создаём store
 export const store = legacy_createStore(rootReducer)

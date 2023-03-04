@@ -19,16 +19,16 @@ export const Task = memo(({
 
     const clickRemoveHandler = useCallback(() => {
         dispatch(removeTaskAC(todoId, task.id))
-    }, [todoId, task.id])
+    }, [dispatch, todoId, task.id])
     const changeCheckboxHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         dispatch(checkBoxChangeAC(todoId, task.id, e.currentTarget.checked))
-    }, [todoId, task.id])
+    }, [dispatch, todoId, task.id])
 
     const style = `${st.styleNone} ${task.isDone ? st.opacity : ""}`
 
     const changeTitleTask = useCallback((value: string) => {
         dispatch(changeTitleTaskAC(todoId, task.id, value))
-    }, [todoId, task.id])
+    }, [dispatch, todoId, task.id])
 
     return (
         <div>

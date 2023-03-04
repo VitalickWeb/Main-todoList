@@ -16,7 +16,7 @@ type ACType = removeTodoListAT | changeTodoListTitleAT | filterTasksAT | addTodo
 const initialState: Array<TodoListsType> = []
 
 //функция TodoListReducer, которая принимает в себя 2 параметра state и action, где state это данные, а action это объект
-export const TodoListReducer = (state: Array<TodoListsType> = initialState, action: ACType): Array<TodoListsType> => {
+export const todoListReducer = (state: Array<TodoListsType> = initialState, action: ACType): Array<TodoListsType> => {
     switch (action.type) {
         case "REMOVE-TODOLIST": {
             return state.filter((tl: TodoListsType) => tl.id !== action.todoId)
