@@ -30,7 +30,7 @@ const AppWithRedux = memo(() => {
     //Первый тип в дженерике это тип с которым он работает "AppRootStateType"
     //Второй параметр это тип, который мы хотим получить в данном случае это массив - "Array[TodoListsType]"
     //useSelector принимает callback у которого в параметре state и должен вернуть нам часть нашего state
-    const todoLists = useSelector<AppRootStateType, Array<TodoListsType>>(state => state.todoLists)
+    const todoLists = useSelector<AppRootStateType, Array<TodoListsType>>(state => state.todoId)
     // const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     //Теперь для того что бы предать нашей компоненте функционал, необходим метод dispatch

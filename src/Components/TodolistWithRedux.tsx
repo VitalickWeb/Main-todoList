@@ -92,8 +92,6 @@ export const TodolistWithRedux = memo(({
     const clickAllHandler = useCallback(() => dispatch(filterTasksAC(todoList.id, "all")), [dispatch, todoList.id])
     const clickActiveHandler = useCallback(() => dispatch(filterTasksAC(todoList.id, "active")), [dispatch, todoList.id])
     const clickCompletedHandler = useCallback(() => dispatch(filterTasksAC(todoList.id, "completed")), [dispatch, todoList.id])
-    // const clickActiveHandler = () => dispatch(filterTasksAC(todoList.id, "active"))
-    // const clickCompletedHandler = () => dispatch(filterTasksAC(todoList.id, "completed"))
 
     const clickRemoveTodoListHandler = () => {
         dispatch(removeTodoListAC(todoList.id))

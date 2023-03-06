@@ -22,7 +22,9 @@ console.log('editableSpan')
     }
 
     const keyDownChangeTitle = (e: KeyboardEvent<HTMLInputElement>) => {
-        e.key === "Enter" && activeViewMode()
+        if (e.key === "Enter") {
+            activeViewMode()
+        }
     }
 
     const activateEditMode = () => {

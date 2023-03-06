@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppRootStateType} from "./store";
+import {AppRootStateType, store} from "./store";
 import {Provider} from "react-redux";
 import {tasksReducer} from "./tasks-redusers";
 import {combineReducers, legacy_createStore} from "redux";
@@ -12,16 +12,16 @@ const rootReducer = combineReducers({
 })
 
 const initialGlobalState = {
-    todoLists: [
-        {id: 'todoListId1', title: 'What to learn', filter: 'all'},
-        {id: 'todoListId2', title: 'What to buy', filter: 'all'}
+    todoId: [
+        {id: 'todolistId1', title: 'What to learn', filter: 'all'},
+        {id: 'todolistId2', title: 'What to buy', filter: 'all'}
     ],
     tasks: {
-        ['todoListId1']: [
+        ['todolistId1']: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: false}
         ],
-        ['todoListId2']: [
+        ['todolistId2']: [
             {id: v1(), title: 'Milk', isDone: true},
             {id: v1(), title: 'React Book', isDone: false}
         ]

@@ -17,14 +17,9 @@ export default {
 const Template: ComponentStory<typeof AppWithRedux> = (args) => <AppWithRedux />;
 
 export const AppWithReduxStory = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-// AppWithReduxStory.args = {
-//     // todoId: v1(),
-//     // task: {id: v1(), title: 'React', isDone: true}
-// };
 
-// export const TaskStoryCheckFalse = Template.bind({});
-// TaskStoryCheckFalse.args = {
-//     todoId: v1(),
-//     task: {id: v1(), title: 'Redux', isDone: false}
-// };
+
+//Библиотека snapshot нужна для тестирования компонент, по скрину с экрана компонент.
+//Делается скрин компоненты с экрана и ложится в папку образцов, потом когда мы запускаем тесты
+//берется снимок запускается сторибук и сравниваются с образцом, если снимок соответствует, то тест проходит.
+//если в компоненте что то изменилось то тест не проходит.
